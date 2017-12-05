@@ -1,0 +1,235 @@
+{% extends "dashboard/base.html" %}
+{% load staticfiles %}
+
+{% block extrahead %}
+
+{% endblock extrahead %}
+
+
+{% block content %}
+<h4 class="page-header">Export CSV</h4>
+          
+    <div class="row">
+                <div class="col l12 col m12 col s12">
+                    <div class="card">
+                        <div class="header">
+                            <h5>
+                                Enter Detail for Filter Data
+                            </h5>
+                        </div>
+                        <div class="body">
+                            <!--{% if success %}
+                            <p class="form-line focused success">{{ success }}</p>
+                            {% endif %} #}-->
+                            {% if error %}
+                            <p class="alert alert-warning">{{ error }}</p>
+                            {% endif %}
+                            <form class="form-horizontal" role="form" method="  post" id="form_validation" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="row">
+                                    <div class="col s6">
+                                        <label>Select Warehouse</label>
+                                            <div class="input-field">
+                                                <div cass="form-line">
+                                                    <select name="wname" class="form-control" id="warehouse" onchange="GetStore(this)">
+                                                        <option value="000" disabled selected> Please select warehouse</option>
+                                                        {% for war in warehouse %}
+                                                        <option value="{{ war.id }}">{{ war.name }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                    </div>
+                                        <div class="col s6">
+                                            <label>Select Store</label>
+                                            <div class="input-field">
+                                                <div class="form-line">
+                                                    <select name="store" class="form-control" id="stor">
+                                                    <option value="00" selected> Please select store</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                </div>
+                                
+                            <div class="row">
+                                    <div class="col s6">
+                                            <label>Enter Start Date </label>
+                                            <div class="input-field">
+                                                <div class="form-line">
+                                                    <i class="material-icons prefix">date_range</i>
+                                                    <input type="text" name="sdate" class="datepicker">
+                                                </div>
+                                            </div>
+                                    </div>
+                                    <div class="col s6">
+                                            <label>Enter End Date </label>
+                                            <div class="input-field">
+                                                <div class="form-line">
+                                                    <i class="large material-icons prefix">date_range</i>                  
+                                                    <input type="text" name="edate" class="datepicker">
+                                                </div>
+                                            </div>
+                                    </div>
+                            </div>
+                                <div class="row">
+                                        <div class="col s6">
+                                            <div class="input-field">
+                                                    <label>Enter Picklist Number:</label>
+                                                    <input type="text" name="pick" class="form-control" id="edatepicker">
+                                            </div>
+                                        </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col s3">
+                                        <div class="input-field">                                            
+                                                <input type="submit" class="btn waves-effect waves-light" name="filter" value="submit"/>                                            
+                                        </div>
+                                    </div>
+                                    <div class="col s3">
+                                        <div class="input-field">                                            
+                                                <input type="submit" class="btn waves-effect waves-light" name="xls" value="XLS"/>                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+    </div>
+
+
+
+
+<div class="container-fluid">
+            
+            
+            <!-- Basic Examples -->
+            <div class="row">
+                <div class="col l12 col m12 col s12">
+                    <div class="card">
+                        <div class="header">
+                            <h5>
+                                Product Data
+                            </h5>
+                        </div>
+                        {% if sucess %}
+                        <p class="alert alert-success">{{ sucess }}</p>
+                        {% endif %}
+                        <div class="body">
+                            <div class="table-responsive">
+
+                                    <table class="table table-bordered table-striped table-hover js-basic-example dataTable" id="exportdataTable-example">
+                                        <thead>
+                                            <tr>
+                                                
+                                                <th>ID</th>
+                                                <th>Picklist</th>
+                                                <th>Store Number</th>
+                                                <th>Warehouse</th>
+                                                <th>Bin Location</th>
+                                                <th>Vendor Product_id</th>
+                                                <th>SKU</th>
+                                                <th>Barcode</th>
+                                                <th>Unit</th>
+                                                <th>Description</th>
+                                            
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for Probj in Product %}
+                                                <tr class="odd gradeX">
+
+                                                     <td>{{ Probj.id }}</td>
+                                                     <td>{{ Probj.picklist }}</td>
+                                                     <td>{{ Probj.store_number }}</td>
+                                                     <td>{{ Probj.warehouse.name }}</td>
+                                                     <td>{{ Probj.bin_location }}</td>
+                                                     <td>{{ Probj.vendor_product_id }}</td>
+                                                     <td>{{ Probj.sku }}</td>
+                                                     <td>{{ Probj.barcode_num }}</td>
+                                                     <td>{{ Probj.unit }}</td>
+                                                     <td>{{ Probj.description }}</td>
+
+                                                </tr>
+                                            {% endfor %}
+
+                                        </tbody>
+                                    </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+{% endblock content %}
+
+
+{% block extrajs %}
+
+
+<!-- DataTables JavaScript
+<script src="{% static "bower_components/datatables/media/js/jquery.dataTables.min.js" %}"></script>
+<script src="{% static "bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"%}"></script> -->
+
+<!-- Page-Level Demo Scripts - Tables - Use for reference -->
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#exportdataTable-example').DataTable({
+            responsive: true
+    });
+});
+
+$('.datepicker').pickadate({
+    selectMonths: true, // Creates a dropdown to control month
+    selectYears: 17, // Creates a dropdown of 15 years to control year,
+    today: 'Today',
+    clear: 'Clear',
+    close: 'Ok',
+    closeOnSelect: false // Close upon selecting a date,
+  });
+
+
+</script>
+<script>
+
+
+function GetStore(dropdown) {
+    var warehouse = dropdown.options[dropdown.selectedIndex].value;
+    alert(warehouse);
+     // clear contents
+    var $selectDropdown = 
+      $("#stor")
+        .empty()
+        .html(' ');
+
+    // add new value
+    var value = "Please Select Store";
+    $selectDropdown.append(
+      $("<option></option>")
+        .attr("value",value)
+        .text(value)
+
+    );
+        {% for str in store %}               
+                
+                if ({{str.warehouse_id}} == warehouse)
+                {
+                var storename = "{{str.name}}";
+                $selectDropdown.append($("<option></option>").attr("value", storename).text(storename));
+                }
+        
+        {% endfor %} 
+       
+        // $selectDropdown.trigger('contentChanged');
+ }
+  // $('select').on('contentChanged', function() {
+  //   // re-initialize (update)
+  //   $(this).material_select();
+  // });
+
+</script>
+
+{% endblock extrajs %}

@@ -1,0 +1,59 @@
+{% extends "dashboard/base.html" %}
+
+
+{% block content %}
+
+
+<h4 class="page-header">Edit Warehouse </h4>
+<div class="row">
+                <div class="col l12 col s12 col m12">
+                    <div class="card">
+                        <div class="header">
+                            <h5>
+                                Enter Detail for Warehouse
+                            </h5>
+                        </div>
+                        <div class="body">
+                            {% if success %}
+                            <p class="alert alert-success">{{ success }}</p>
+                            {% endif %}
+                            <form class="form-horizontal" role="form" method="post" >
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col s6">
+                                        <label>Enter name of warehouse</label>
+                                        <div class="input-field">
+                                                <input class="form-control" type="text" name="wname" value = "{{ warehouse.name }}">
+                                                {% if name %}
+                                                    <span style="color:#FF0000;">  {{ name }} </span>
+                                                {% endif %}                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col s6">
+                                        <label>Enter warehouse number</label>                                    
+                                        <div class="input-field">
+                                                <input class="form-control" type="number" name="wnumber" value="{{ warehouse.number }}" placeholder="Enter the number of warehouse" required>
+                                                {% if number %}
+                                                    <span style="color:#FF0000;">  {{ number }} </span>
+                                                {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col s3">
+                                        <div class="input-field">
+                                        <input type="submit" class="btn waves-effect waves-light" value="submit"/>
+                                        </div>  
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+    
+{% endblock content %}

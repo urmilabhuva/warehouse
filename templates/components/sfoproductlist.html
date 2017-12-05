@@ -1,0 +1,86 @@
+{% extends "dashboard/base.html" %}
+{% load staticfiles %}
+
+{% block extrahead %}
+
+{% endblock extrahead %}
+
+
+{% block content %}
+
+<h4 class="page-header">SFOProduct List</h4>
+        
+            
+            <!-- Basic Examples -->
+            <div class="row">
+                <div class="col l12 col m12 col s12">
+                    <div class="card">
+                        <div class="header">
+                            <h5>
+                                SFOProduct Data
+                            </h5>
+                        </div>
+                        {% if sucess %}
+                        <p class="alert alert-success">{{ sucess }}</p>
+                        {% endif %}
+                        <div class="body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped table-hover dataTable" id="sfoproductTables-example">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Barcode</th>
+                                            <th>SKU</th>
+                                            <th>Bin Location</th>
+                                            <th>Quantity in hand</th>
+                                            <th>Primary Stock</th>
+                                            <th>Conversion</th>
+                                            <th>Edit</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for Probj in productobj %}
+                                        <tr class="odd gradeX">
+                                            <td>{{ Probj.name }}</td>
+                                            <td>{{ Probj.barcode }}</td>
+                                            <td>{{ Probj.sku }}</td>
+                                            <td>{{ Probj.bin }}</td>
+                                            <td>{{ Probj.quantityinhand }}</td>
+                                            <td>{{ Probj.primary_stock }}</td>
+                                            <td>{{ Probj.Conversion }}</td>
+                                            <td class="center"><a href="javascript:void()" data-url="{{Probj.id}}" data-id="True" class="edit-sfopro-btn">
+                                            <i class="material-icons">edit</i></a>
+                                            </td>
+                                        {% endfor %}
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+</div>
+
+{% endblock content %}
+
+
+{% block extrajs %}
+
+<!-- DataTables JavaScript 
+<script src="{% static "bower_components/datatables/media/js/jquery.dataTables.min.js" %}"></script>
+<script src="{% static "bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"%}"></script>-->
+
+<!-- Page-Level Demo Scripts - Tables - Use for reference -->
+<script>
+$(document).ready(function() {
+    $('#sfoproductTables-example').DataTable({
+            responsive: true    });
+});
+$(document).on('click','.edit-sfopro-btn',function() {
+        window.location= '/dashboard/sfoeditproduct/'+ $(this).attr('data-url')
+    });
+
+</script>
+
+{% endblock extrajs %}

@@ -1,0 +1,185 @@
+{% extends "dashboard/base.html" %}
+{%load staticfiles%}
+
+
+{% block content %}
+<h4 class="page-header">Add User</h4>
+            
+
+<div class="row">
+                <div class="col l12 col m12 col s12">
+                    <div class="card">
+                        <div class="header">
+                            <h5>
+                                Enter Detail & Add User
+                            </h5>
+                        </div>
+                        <div class="body">
+                                {% if success %}
+                                <p class="alert alert-success">{{ success }}</p>
+                                {% endif %}
+                                {% if error %}
+                                <p class="alert alert-danger">{{ error }}</p>
+                                {% endif %}
+                                <form class="form-horizontal" role="form" method="  post" id="frmsubmit" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                <div class="row ">
+                                    <div class="col s12 col m8 col l6 ">
+                                        <div class="input-field">
+                                                <i class="material-icons prefix">account_circle</i>
+                                                <input class="form-control" type="text" name="uname" placeholder="Enter User name">
+                                                {% if username %}
+                                                    <span style="color:#FF0000;">  {{ username }} </span>
+                                                {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row ">
+                                    <div class="col s12 col m8 col l6 ">
+                                        <div class="input-field">
+                                                <i class="material-icons prefix">person</i>
+                                                <input class="form-control" type="text" name="fname" placeholder="Enter first name">
+                                                {% if fnamee %}
+                                                    <span style="color:#FF0000;">  {{ fnamee }} </span>
+                                                {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="col s12 col m8 col l6 ">
+                                        <div class="input-field">                                        
+                                            <i class="material-icons prefix">person</i>                               
+                                            <input class="form-control" type="text" name="lname" placeholder="Enter last name">
+                                            {% if lnamee %}
+                                                <span style="color:#FF0000;">  {{ lnamee }} </span>
+                                            {% endif %}                                        
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col s12 col m8 col l6">
+                                        <div class="input-field">                                        
+                                            <i class="material-icons prefix">call</i>
+                                            <input class="form-control" type="number" name="cnumber" placeholder="Enter contact number">
+                                            {% if cnumbere %}
+                                                <span style="color:#FF0000;">  {{ cnumbere }} </span>
+                                            {% endif %}                                        
+                                        </div>
+                                    </div>  
+                                </div>
+                                <div class="row">
+                                    <div class="col s12 col m8 col l6 ">
+                                        <div class="input-field">
+                                            <i class="material-icons prefix">email</i>
+                                            <input class="form-control" type="email" name="email" placeholder="Enter email">
+                                            {% if emaile %}
+                                                <span style="color:#FF0000;">  {{ emaile }} </span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="col s12 col m8 col l6">
+                                        <div class="input-field">
+                                            <i class="material-icons prefix">lock</i>
+                                            <input class="form-control" type="password" name="pwd" placeholder="Enter Password">
+                                            {% if pwde %}
+                                                <span style="color:#FF0000;">  {{ pwde }} </span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col s12 col m8 col l6">
+                                        <div class="input-field">
+                                            <div class="form-line">
+                                                <select name="ware" class="form-control" id="warehouse" onchange="GetStore(this)">
+                                                    <option value="00" selected> Please select warehouse</option>
+                                                    {% for war in warehouse %}
+                                                    <option value="{{ war.id }}">{{ war.name }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            {% if houseware %}
+                                                <span style="color:#FF0000;">  {{ houseware }} </span>
+                                            {% endif %}
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="col s12 col m8 col l6">
+                                        <div class="input-field">
+                                            <div class="form-line">
+                                                <select name="store" class="form-control" id="storeid">
+                                                    <option value="000" selected> Please select store</option>
+                                                </select>
+                                                {% if storeerror %}
+                                                    <span style="color:#FF0000;">  {{ storeerror }} </span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col s3">
+                                        <div class="input-field">
+                                            
+                                            <input type="submit" class="btn waves-effect waves-light" id ="store" value="submit"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                </form>
+                        </div>
+                    </div>
+                </div>
+</div>
+</div>
+
+
+    
+{% endblock content %}
+{% block extrajs %}
+
+<script>
+    function GetStore(dropdown) {
+    var warehouse = dropdown.options[dropdown.selectedIndex].value;
+    
+    // clear contents
+    var $selectDropdown = 
+      $("#storeid")
+        .empty()
+        .html(' ');
+
+    // add new value
+    var value = "Please Select Store";
+    $selectDropdown.append(
+      $("<option></option>")
+        .attr("value",value)
+        .text(value)
+
+    );
+    {% for storeobj in store %} 
+       if ({{storeobj.warehouse_id}} == warehouse){
+             
+             var storename = "{{storeobj.name}}";
+            
+             $selectDropdown.append($("<option></option>").attr("value",storename).text(storename));
+       }
+     {%endfor%}
+
+
+    // trigger event
+    // $selectDropdown.trigger('contentChanged');
+  }
+
+
+  // $('select').on('contentChanged', function() {
+  //   // re-initialize (update)
+  //   $(this).material_select();
+  // });
+  
+
+ </script>
+
+
+
+
+ {% endblock extrajs %}

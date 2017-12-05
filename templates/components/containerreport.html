@@ -1,0 +1,116 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>My Title</title>
+        <style type="text/css">
+        	table, th, td {
+    			border: 1px solid black;
+    			border-collapse: collapse;
+			}
+		th, td {
+    	padding: 5px;
+    	text-align: left;
+		}
+		.container {
+		    position:absolute;
+		    bottom:0;
+		    margin: 0 5px 5px 5px;
+		    width: 200px;
+		    heigth: 30px;
+		}
+		.left{
+    		float: left;
+			}
+	.right{
+    	float: right;
+
+	}
+
+            @page {
+                size: {{ pagesize }};
+                margin: 1cm;
+                @frame footer {
+                    -pdf-frame-content: footerContent;
+                    bottom: 0cm;
+                    margin-left: 9cm;
+                    margin-right: 9cm;
+                    height: 1cm;
+                }
+            }
+            .page-break{
+        page-break-after: always;
+    }
+
+
+        </style>
+    </head>
+{% for x in mylist %}
+
+<body >
+
+        {% with x|first as first_object %}
+    	<div class="container">
+    			<span class="left"><img src="http://52.26.21.153/scanner/admin/logo.png"  height="110px" width="100px" /> </span><br/></br>
+    			<span class="right" style="font-size:15px" ;><h6>Container Contents</h6></span></div>
+                <span class="right" style="font-size:15px" ;><h6>Store Name: {{ first_object.store.name }}</h6></span>
+                <span class="right" style="font-size:15px" ;><h6>Store No:{{ first_object.store.number }}</h6></span>
+                <span class="right" style="font-size:15px" ;><h6>Tote No: {{ first_object.tote }}</h6></span>
+
+    	</div>
+        {% endwith %}
+        </br>
+
+        <div class="table-responsive">
+        <table style="width:100%" >
+
+            <tr >
+                <th style="font-size:15px">SKU</th>
+                <th style="font-size:15px">Description</th>
+                <th style="font-size:15px">Quantity</th>
+
+            </tr>
+
+
+            {% for li in x %}
+
+             <tr >
+
+
+
+
+
+                <td style="font-size:12px">
+                {{ li.sku}}
+
+                </td>
+
+
+                <td style="font-size:12px">
+                	{{ li.description }}
+                </td>
+
+                <td style="font-size:12px">
+                {{ li.quantity }}
+                </td>
+
+
+            </tr>
+
+            {% endfor %}
+
+
+        </tbody>
+        </table>
+
+        <div>
+
+</div>     
+
+</div>
+
+
+ </body>
+<pdf:nextpage />
+{% endfor %}
+
+</html>

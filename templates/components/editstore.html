@@ -1,0 +1,82 @@
+{% extends "dashboard/base.html" %}
+
+
+{% block content %}
+
+
+<h4 class="page-header">Edit Store </h4>
+<div class="row">
+                <div class="col l12 col m12 col s12">
+                    <div class="card">
+                        <div class="header">
+                            <h5>Enter Detail for Store
+                            </h5>
+                        </div>
+                        <div class="body">
+                            {% if success %}
+                            <p class="alert alert-success">{{ success }}</p>
+                            {% endif %}
+                            <form class="form-horizontal" role="form" method="post" id="editstorefrmsubmit" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col s6">
+                                        <label>Select Warehouse:</label>
+                                        <div class="input-field ">
+                                            <div class="form-line">
+                                                <select name="ware" class="form-control" id="warehouse">
+                                                    <option value= {{ store.warehouse.id }} selected>{{ store.warehouse.name }}</option>
+                                                    {% for war in warehouse %}
+                                                    <option value="{{ war.id }}">{{ war.name }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                                    {% if houseware %}
+                                                        <span style="color:#FF0000;">  {{ houseware }} </span>
+                                                    {% endif %}                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col s6">
+                                        <label>Enter Store Name:</label>
+                                        <div class="input-field">
+                                            <div class="form-line">
+                                                <input class="form-control" type="text" name="sname" value="{{ store.name }}">
+                                                {% if name %}
+                                                    <span style="color:#FF0000;">  {{ name }} </span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                    
+                                <div class="row">
+                                    <div class="col s6">
+                                        <label>Enter Store Number</label>
+                                        <div class="input-field">
+                                            <div class="form-line">
+                                                <input class="form-control" type="number" name="snumber" value="{{ store.number }}" placeholder="Enter the number of store" required>
+                                                {% if number %}
+                                                    <span style="color:#FF0000;">  {{ number }} </span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col s3">
+                                        <div class="input-field">
+                                        <input type="submit" class="btn waves-effect waves-light" id="store" value="submit"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+</div>
+
+
+
+    
+{% endblock content %}

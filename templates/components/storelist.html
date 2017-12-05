@@ -1,0 +1,89 @@
+{% extends "dashboard/base.html" %}
+{% load staticfiles %}
+
+{% block extrahead %}
+
+
+
+{% endblock extrahead %}
+
+
+{% block content %}
+<h4 class="page-header">Store List</h4>
+            
+            <!-- Basic Examples -->
+            <div class="row">
+                <div class="col l12 col m12 col s12">
+                    <div class="card">
+                        <div class="header">
+                            <h5>
+                                Store
+                            </h5>
+                        </div>
+                        {% if sucess %}
+                        <p class="alert alert-success">{{ sucess }}</p>
+                        {% endif %}
+                        <div class="body">
+                            <div class="table-responsive">
+
+                                    <table class="table table-bordered table-striped table-hover js-basic-example dataTable" id="storedataTables-example">
+                                        <thead>
+                                            <tr>
+                                                <th>Store Number</th>
+                                                <th>Store Name</th>
+                                                <th>Warehouse Name</th>
+                                                <th>edit</th>
+                                                <th>Delete</th>
+                                            </tr>
+                                            <tbody>
+                                                {% for str in store %}
+                                                <tr>
+                                                    <td>{{ str.number }}</td>
+                                                    <td>{{ str.name }}</td>
+                                                    <td>{{ str.warehouse.name }}</td>
+                                                    
+
+                                                    <td class="center"><a href="javascript:void()" data-url="{{str.id}}" data-id="True" class="edit-str-btn">
+                                                    <i class="material-icons">edit</i></a>
+                                                    </td>
+                                                    <td class="center"><a href="javascript:void()" data-url="{{str.id}}" data-id="True" class="delete-str-btn">
+                                                    <i class="material-icons">delete</i></a>
+                                                    </td>
+                                                </tr>
+                                                {% endfor %}
+
+                                            </tbody>
+                                        </thead>
+                                    </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+</div>
+
+            
+{% endblock content %}
+
+
+{% block extrajs %}
+
+
+<!-- Page-Level Demo Scripts - Tables - Use for reference -->
+<script>
+$(document).ready(function() {
+    $('#storedataTables-example').DataTable({
+            responsive: true
+    });
+});
+console.log("abc");
+$(document).on('click','.edit-str-btn',function() {
+        window.location= '/dashboard/editstore/'+ $(this).attr('data-url')
+    });
+$(document).on('click','.delete-str-btn',function() {
+        window.location= '/dashboard/delstore/'+ $(this).attr('data-url')
+    });
+
+</script>
+
+{% endblock extrajs %}

@@ -1,0 +1,77 @@
+{% extends "dashboard/base.html" %}
+{%load staticfiles%}
+
+
+{% block content %}
+
+<h4 class="page-header">Add Warehouse </h4>
+<div class="row ">
+                <div class="col l12 col m12 col s12">
+                    <div class="card">
+                        <div class="header">
+                            <h5>
+                                Enter Detail for Warehouse
+                            </h5>
+                            
+                        </div>
+                        <div class="body">
+                            {% if success %}
+                            <p class="alert alert-success">{{ success }}</p>
+                            {% endif %}
+
+                            <form class="form-horizontal" role="form" method="post" >
+                                {% csrf_token %}
+                                <div class="clearfix">
+                                    <div class="col-md-6 ">
+                                        <div class="input-field">
+                                            <div class="form-line">
+                                                <label>Enter name of  Warehouse:</label>
+                                                <input class="form-control" type="text" name="wname">
+                                                {% if name %}
+                                                <span style="color:#FF0000;">{{ name }}</span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="clearfix">
+                                    <div class="col-md-6 ">
+                                        <div class="input-field"> 
+                                            <div class="form-line">
+                                                <label>Enter warehouse number</label>
+                                                <input class="form-control " type="number" name="wnumber">
+                                                {% if number %}
+                                                <span style="color:#FF0000;">{{number}} </span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div> 
+                                </div>
+
+                                <div class="row">
+                                    <div class="col s2 ">
+                                        <div class="input-field">
+                                            <div class="form-line">
+                                                <input type="submit" class="btn waves-effect waves-light" value="submit"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+                        
+
+    
+{% endblock content %}
+
+{%block extrajs%}
+
+ {%endblock extrajs%}

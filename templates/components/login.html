@@ -1,0 +1,81 @@
+
+{% extends "layout/base.html" %}
+{%load staticfiles%}
+{% block extrahead %}
+ <!-- Materialize Core Css -->
+   <link href="{% static "plugins/materialize-css/css/materialize.css" %}" rel="stylesheet">
+    
+{% endblock extrahead %}
+
+
+{% block basecontent %}
+<body class="login-page">
+    <div class="login-box">
+        <div class="logo">
+            <a href="javascript:void(0);">Admin<b>BSB</b></a>
+            <small>Admin BootStrap Based - Material Design</small>
+        </div>
+        <div class="card">
+            <div class="body">
+
+                    {% if form.errors %}
+
+                    <p class="alert alert-danger">Your username and password didn't match. Please try again.</p>
+                    {% endif %}
+                <form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
+            {%csrf_token%}
+                
+                    <div class="msg">Sign in to start your session</div>
+
+                    <div class="input-field">
+                        <div class="form-line">
+                            <i class="material-icons prefix">person</i>
+                            <input type="text" class= "form-control" name="username" >
+                        </div>
+                    </div>
+
+                    <div class="input-field">  
+                        <div class="form-line">
+                            <i class="material-icons prefix">lock</i>
+                           <input type="password" class="form-control" name="password">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s6">
+                                <input type="checkbox" name="rememberme" id="rememberme" class="filled-in" checked="checked" >
+                                <label for="rememberme">Remember Me</label>
+                           
+                        </div>
+                        <div class="col col-sm-6 align-right">
+                                <button class="btn waves-effect waves-light" type="submit" value="login">SIGN IN</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s6">
+                                <a href="sign-up.html">Register Now!</a>
+                            
+                        </div>
+                        <div class="col s6 align-right">
+                            
+                                <a href="forgot-password.html">Forgot Password?</a>
+                           
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+    
+{% endblock basecontent %}
+{% block extrajs %}
+
+<script src="{% static "plugins/materialize-css/js/materialize.js" %}"></script>
+    
+    
+
+   
+{% endblock extrajs %}
+

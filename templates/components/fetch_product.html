@@ -1,0 +1,205 @@
+{% extends "dashboard/base.html" %}
+{%load staticfiles%}
+{%block extrahead%}
+
+{%endblock extrahead%}
+{% block content %}
+
+
+<h4 class="page-header">Warehouse Management</h4>
+
+        <div class="container-fluid">
+            <!--<div class="block-header">
+                <h2>WAREHOUSE</h2>
+            </div>-->
+
+            <!-- Vertical Layout -->
+            
+                <div class="col s12 col m12 col l12">
+                    <div class="card">
+                        <div class="header">
+                            <h5>
+                                Fetch Product Data From Purchase Order
+                            </h5>
+                            
+                        </div>
+                        <div class="body">
+                            {% if success %}
+                            <p class="alert alert-success">{{ success }} {{count}} {{ record }}</p>
+                            {% endif %}
+                            {% if Error %}
+                            <p class="alert alert-danger">{{ Error }}</p>
+                            {% endif %}
+                            <form role="form" class="col s12"method="post" >
+                            {% csrf_token %}
+                                <div class="row">
+                                    <div class="col l6  col m8 col s12">
+                                        <div class="input-field">
+                                            <div class="form-line">
+                                                <select name="ware" class="form-control" id="warehouseid" onchange="GetStore(this)">
+                                                    <option value="000" disabled selected> Please select warehouse</option>
+                                                    {% for war in warehouse %}
+                                                    <option value="{{ war.id }}">{{ war.name }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                                
+                                                                                   
+                                                    {% if houseware %}
+                                                         <span style="color:#FF0000;">  {{ houseware }} </span>
+                                                    {% endif %}
+                                            </div>
+                                        </div> 
+                                    </div>   
+                                   
+                                    <div class="col l6  col m8 col s12">
+                                
+                                        <div class="input-field">  
+                                            <div class="form-line">                                      
+                                                <select name="store" class="form-control" id="storeid">
+                                                    <option value="000" disabled selected>Please select store</option>                                       
+                                                </select>
+                                                
+                                                    {% if storeware %}
+                                                        <span style="color:#FF0000;">  {{ storeware }} </span>
+                                                    {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+
+                                    <div class="row">
+                                        <div class="col l6  col m8 col s12">
+                                            <div class="input-field">                                    
+                                                <label>Enter purchase order number</label>
+                                                <input class="form-control" type="number" name="ponumber">
+                                                {% if number %}
+                                                    <span style="color:#FF0000;">  {{ number }} </span>
+                                                {% endif %}
+                                            
+                                            </div> 
+                                        </div>   
+                                    </div>
+
+                                
+                                <div class="row">
+                                    <div class="col s3">
+                                        <button class="btn waves-effect waves-light" type="submit" value="submit" name="action">Submit
+                                        </button>
+                                    </div>
+                                </div>  
+
+                                
+                            </form>
+                        </div>
+                    </div>
+                </div>            
+            
+                <div class="col s12">
+                    <div class="card">
+                        <div class="header">
+                            <h5>
+                                Import Excel
+                            </h5>
+                        </div>
+                        <div class="body">
+                           
+                                
+                                    {% if successexcel %}
+                                        <p class="alert alert-success">{{ successexcel }} {{ count }} </p>
+                                    {% endif %}
+                                    {% if excelwarn%}
+                                        <p class="alert alert-danger">{{ excelwarn }}</p>
+                                    {% endif %}
+                                    {% if Error %}
+                                        <p class="alert alert-danger">{{ Error }}</p>
+                                    {% endif %}
+                                    <form role="form"  enctype="multipart/form-data" method="post" >
+                                       {% csrf_token %}
+                                        <div class="row">
+                                            <div class="col s3">
+                                                <div class="form-line" style="padding-bottom:20px;">
+                                                    <div class="input-field">
+                                                        
+                                                            <input type="file" name ="prxls" required accept="application/vnd.ms-excel">
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                           
+                                        <div class="row">
+                                            <div class="col s12">
+                                                <div class="form-line">
+                                                    <input  type="submit" class="btn waves-effect waves-light" name = "xls" value="Submit SFO xls"/>
+                                                    <input type="submit" class="btn waves-effect waves-light" name = "uom" value="Submit UOM xls"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                        </div>
+                    </div>
+                </div>
+
+                    
+        </div>
+
+
+    
+{% endblock content %}
+
+{% block extrajs %}
+
+<script type="text/javascript">
+    //  $(document).ready(function() {
+    // $('select').material_select();
+    // });
+    </script>
+
+
+
+<script type="text/javascript">
+  
+  function GetStore(dropdown) {
+    var warehouse = dropdown.options[dropdown.selectedIndex].value;
+    
+    // clear contents
+    var $selectDropdown = 
+      $("#storeid")
+        .empty()
+        .html(' ');
+
+    // add new value
+    var value = "Please Select Store";
+    $selectDropdown.append(
+      $("<option></option>")
+        .attr("value",value)
+        .text(value)
+
+    );
+    {% for storeobj in store %} 
+       if ({{storeobj.warehouse_id}} == warehouse){
+            
+            var storename = "{{storeobj.name}}";
+            
+            $selectDropdown.append($("<option></option>").attr("value",storename).text(storename));
+      }
+    {%endfor%}
+
+
+    // trigger event
+    // $selectDropdown.trigger('contentChanged');
+  }
+
+
+  // $('select').on('contentChanged', function() {
+  //   // re-initialize (update)
+  //   $(this).material_select();
+  // });
+  
+
+ 
+</script>
+
+{% endblock extrajs %}

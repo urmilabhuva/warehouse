@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>My Title</title>
+        <style type="text/css">
+        	table, th, td {
+    			border: 1px solid black;
+    			border-collapse: collapse;
+			}
+		th, td {
+    	padding: 5px;
+    	text-align: left;
+		}
+		.container {
+		    position:absolute;
+		    bottom:0;
+		    margin: 0 5px 5px 5px;
+		    width: 200px;
+		    heigth: 30px;
+		}
+		.left{
+    		float: left;
+			}
+	.right{
+    	float: right;
+
+	}
+
+            @page {
+                size: {{ pagesize }};
+                margin: 1cm;
+                @frame footer {
+                    -pdf-frame-content: footerContent;
+                    bottom: 0cm;
+                    margin-left: 9cm;
+                    margin-right: 9cm;
+                    height: 1cm;
+                }
+
+        </style>
+    </head>
+
+<body>
+
+    	<div class="container">
+    			<span class="left"><img src="http://52.26.21.153/scanner/admin/logo.png"  height="110px" width="100px" /> </span><br/></br>
+    			<span class="right" style="font-size:15px" ;><h6>Dellivery Mainfest</h6></span>
+                <span class="right" style="font-size:15px" ;><h6>{% now "jS F Y H:i" %}</h6></span>
+        </div>
+            {% with mylist|first as first_object %}
+
+
+            <span class="right" style="font-size:15px" ;><h6>Picklist Number:{{ first_object.picklist }}</h6></span></div>
+            {% endwith %}
+
+    	</div>  </br>
+
+        <div class="table-responsive">
+        <table style="width:100%" >
+
+            <tr >
+                <th style="font-size:15px">Warehouse ID</th>
+                <th style="font-size:15px">Store Number</th>
+                <th style="font-size:15px">Store Name</th>
+                <th style="font-size:15px">Tote Number</th>
+            </tr>
+
+
+             {% for li in mylist %}
+
+             <tr >
+
+
+
+
+
+                <td style="font-size:12px">
+                {{ li.warehouse.number }}
+
+                </td>
+
+
+                <td style="font-size:12px">
+                	{{ li.store.name }}--{{ li.store.number }}
+                </td>
+
+                <td style="font-size:12px">
+                {{ li.store.name }}
+                </td>
+
+
+                <td style="font-size:12px">
+                {{ li.tote }}
+                </td>
+
+            </tr>
+
+            {% endfor %}
+        </tbody>
+    </table>
+            <br>
+            <br>
+
+            <table style="width:100%" >
+
+            <tr >
+                <th style="font-size:15px">Delivered By:_____________</th>
+
+                <th style="font-size:15px">Total Totes:__________</th>
+                <th style="font-size:15px">Total Boxes:__________</th>
+
+            </tr>
+             <tr >
+                <th style="font-size:15px">Received By:_____________</th>
+                <th style="font-size:15px">Total Totes:__________</th>
+                <th style="font-size:15px">Total Boxes::__________</th>
+
+            </tr>
+                <tr>
+                    <th style="font-size:15px">Comments:_____________</th>
+                </tr>
+            </table>
+
+
+    </div>
+
+
+        <div id="footerContent">
+            {%block page_foot%}
+                Page <pdf:pagenumber>
+            {%endblock%}
+        </div>
+    </body>
+</html>
